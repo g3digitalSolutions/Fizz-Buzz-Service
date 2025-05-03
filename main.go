@@ -78,8 +78,19 @@ func fizzBuzzHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/fizzbuzz/", fizzBuzzHandler)
+	//http.HandleFunc("/fizzbuzz/", fizzBuzzHandler)
 
-	fmt.Println("Running on localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	//fmt.Println("Running on localhost:8080")
+	//log.Fatal(http.ListenAndServe(":8080", nil))
+  port := os.Getenv("PORT") // Heroku/Render will set this
+	if port == "" {
+		port = "8080" // fallback for local dev
+	}
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello from Go web app!")
+	})
+
+	log.Printf("Running on port %s\n", port)
+	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, nil)) // Bind to 0.0.0.0
 }
