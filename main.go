@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -82,7 +83,7 @@ func main() {
 
 	//fmt.Println("Running on localhost:8080")
 	//log.Fatal(http.ListenAndServe(":8080", nil))
-  port := os.Getenv("PORT") // Heroku/Render will set this
+	port := os.Getenv("PORT") // Heroku/Render will set this
 	if port == "" {
 		port = "8080" // fallback for local dev
 	}
