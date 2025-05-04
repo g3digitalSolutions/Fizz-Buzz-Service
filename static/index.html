@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fizz Buzz Testing Machine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    label, input, button, textarea {
+      display: block;
+      margin: 10px 0;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome to Fizz Buzz Testing Machine</h2>
+
+  <label for="inputValue">Input:</label>
+  <input type="text" id="inputValue" />
+
+  <button onclick="submitInput()">Submit</button>
+
+  <textarea id="responseArea" readonly></textarea>
+
+  <script>
+    function submitInput() {
+      const input = document.getElementById('inputValue').value.trim();
+      const responseArea = document.getElementById('responseArea');
+
+      if (!input) {
+        responseArea.value = 'Please enter a value.';
+        return;
+      }
+
+      const url = `https://fizz-buzz-service.onrender.com/fizzbuzz/${encodeURIComponent(input)}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) responseArea.value = 'Error: reponse not ok!';
+          return response.json();
+        })
+        .then(data => {
+          responseArea.value = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          responseArea.value = 'Error: ' + error.message;
+        });
+    }
+  </script>
+</body>
+</html>
